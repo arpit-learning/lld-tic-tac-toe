@@ -2,6 +2,7 @@ package dev.arpit.ticTacToe.services;
 
 import dev.arpit.ticTacToe.dtos.ResponseCode;
 import dev.arpit.ticTacToe.exceptions.EmptyMovesException;
+import dev.arpit.ticTacToe.exceptions.GameDrawnException;
 import dev.arpit.ticTacToe.exceptions.GameInvalidationException;
 import dev.arpit.ticTacToe.exceptions.InvalidMoveException;
 import dev.arpit.ticTacToe.models.*;
@@ -31,7 +32,7 @@ public class GameService implements IGameService {
         .build();
   }
 
-  private boolean checkWinner(Board board, Move move) {
+  private boolean checkWinner(Board board, Move move) throws GameDrawnException {
     return iWinningStrategy.checkWinner(board, move);
   }
 
@@ -44,7 +45,7 @@ public class GameService implements IGameService {
   }
 
   @Override
-  public void makeMove(Game game) throws InvalidMoveException {
+  public void makeMove(Game game) throws InvalidMoveException, GameDrawnException {
     Player currentPlayer = game.getPlayers().get(game.getNextPlayerMoveIndex());
 
     System.out.println("It is " + currentPlayer.getName() + "'s move.");
